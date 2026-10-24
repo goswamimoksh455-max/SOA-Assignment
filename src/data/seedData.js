@@ -252,6 +252,7 @@ const seedLabTests = [
     testName: "12-Lead Electrocardiogram (ECG)",
     urgency: "HIGH",
     status: "COMPLETED",
+    specimenRequired: "Non-Invasive Surface Electrodes",
     specimenCollectedAt: "2026-10-20T09:30:00Z",
     resultData: {
       findings: "Sinus tachycardia at 104 bpm. No acute ST-elevation or ischemic changes.",
@@ -271,6 +272,7 @@ const seedLabTests = [
     testName: "Digital X-Ray Bilateral Knees (AP & Lateral)",
     urgency: "NORMAL",
     status: "COMPLETED",
+    specimenRequired: "Radiological Imaging",
     specimenCollectedAt: "2026-10-21T10:30:00Z",
     resultData: {
       findings: "Medial joint space narrowing bilaterally with subchondral sclerosis.",

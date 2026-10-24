@@ -890,7 +890,7 @@ async function loadLabOrders() {
           <div class="item-subtext">Patient: ${order.patientName} (${order.patientPhone}) • Order ID: <code>${order.id}</code></div>
           <div class="item-spec-grid">
             <div><strong>Urgency:</strong> ${order.urgency}</div>
-            <div><strong>Specimen Required:</strong> ${order.specimenRequired}</div>
+            <div><strong>Specimen Required:</strong> ${order.specimenRequired || 'Standard Clinical Sample'}</div>
             <div><strong>Ordered At:</strong> ${order.createdAt.split('T')[0]}</div>
             <div><strong>Linked Consultation:</strong> ${order.appointmentId}</div>
           </div>
