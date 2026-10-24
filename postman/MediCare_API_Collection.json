@@ -1,0 +1,380 @@
+{
+  "info": {
+    "_postman_id": "c1f7a0b3-8419-4b12-9214-984e91238912",
+    "name": "MediCare Healthcare Web Service - IA2",
+    "description": "Complete Postman Test Suite for MediCare Healthcare SOA Web Service.\nIncludes endpoints for Doctor Management, Appointment Scheduling with Conflict Prevention, E-Prescriptions, and Hospital Analytics.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "0. Root Service Metadata",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api",
+          "host": ["{{base_url}}"],
+          "path": ["api"]
+        },
+        "description": "Returns API contract and available micro-endpoints."
+      }
+    },
+    {
+      "name": "1. Doctors Directory",
+      "item": [
+        {
+          "name": "GET All Doctors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/doctors",
+              "host": ["{{base_url}}"],
+              "path": ["api", "doctors"]
+            }
+          }
+        },
+        {
+          "name": "GET Doctors by Specialization Filter",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/doctors?specialization=Cardiology",
+              "host": ["{{base_url}}"],
+              "path": ["api", "doctors"],
+              "query": [
+                { "key": "specialization", "value": "Cardiology" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Doctor by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/doctors/DOC-101",
+              "host": ["{{base_url}}"],
+              "path": ["api", "doctors", "DOC-101"]
+            }
+          }
+        },
+        {
+          "name": "POST Onboard New Specialist Doctor",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Dr. Sunita Kapoor\",\n  \"specialization\": \"Dermatology\",\n  \"qualification\": \"MD (Dermatology), DVD\",\n  \"experienceYears\": 10,\n  \"consultationFee\": 700,\n  \"availableDays\": [\"Tuesday\", \"Friday\"],\n  \"availableSlots\": [\"11:00 AM\", \"03:00 PM\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/doctors",
+              "host": ["{{base_url}}"],
+              "path": ["api", "doctors"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Appointment Scheduling (Core Business Logic)",
+      "item": [
+        {
+          "name": "GET All Appointments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/appointments",
+              "host": ["{{base_url}}"],
+              "path": ["api", "appointments"]
+            }
+          }
+        },
+        {
+          "name": "POST Book Appointment (Success 201)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientName\": \"Arjun Mehta\",\n  \"patientAge\": 29,\n  \"patientGender\": \"Male\",\n  \"patientPhone\": \"+91-9876500112\",\n  \"patientEmail\": \"arjun.m@example.com\",\n  \"doctorId\": \"DOC-101\",\n  \"appointmentDate\": \"2026-10-25\",\n  \"timeSlot\": \"11:30 AM\",\n  \"symptoms\": \"Elevated resting heart rate and mild dizziness\",\n  \"urgencyLevel\": \"HIGH\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/appointments",
+              "host": ["{{base_url}}"],
+              "path": ["api", "appointments"]
+            }
+          }
+        },
+        {
+          "name": "POST Conflict Test (Double-Booking 409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientName\": \"Kavita Rao\",\n  \"patientAge\": 42,\n  \"patientGender\": \"Female\",\n  \"patientPhone\": \"+91-9876599881\",\n  \"doctorId\": \"DOC-101\",\n  \"appointmentDate\": \"2026-10-20\",\n  \"timeSlot\": \"09:00 AM\",\n  \"symptoms\": \"Routine checkup\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/appointments",
+              "host": ["{{base_url}}"],
+              "path": ["api", "appointments"]
+            }
+          }
+        },
+        {
+          "name": "GET Appointment by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/appointments/APT-2026-001",
+              "host": ["{{base_url}}"],
+              "path": ["api", "appointments", "APT-2026-001"]
+            }
+          }
+        },
+        {
+          "name": "PUT Reschedule Appointment Slot",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newDate\": \"2026-10-27\",\n  \"newTimeSlot\": \"02:00 PM\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/appointments/APT-2026-001/reschedule",
+              "host": ["{{base_url}}"],
+              "path": ["api", "appointments", "APT-2026-001", "reschedule"]
+            }
+          }
+        },
+        {
+          "name": "PATCH Update Appointment Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"CANCELLED\",\n  \"reason\": \"Patient requested cancellation due to travel\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/appointments/APT-2026-001/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "appointments", "APT-2026-001", "status"]
+            }
+          }
+        },
+        {
+          "name": "DELETE Appointment Record",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/appointments/APT-2026-001",
+              "host": ["{{base_url}}"],
+              "path": ["api", "appointments", "APT-2026-001"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. E-Prescriptions (Consultation Records)",
+      "item": [
+        {
+          "name": "POST Issue Digital Prescription",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"diagnosis\": \"Sinus Tachycardia with stress-induced mild hypertension\",\n  \"vitalSigns\": {\n    \"bloodPressure\": \"135/88 mmHg\",\n    \"pulseRate\": \"94 bpm\",\n    \"weightKg\": 74\n  },\n  \"medicines\": [\n    {\n      \"name\": \"Bisoprolol Fumarate\",\n      \"dosage\": \"2.5 mg\",\n      \"frequency\": \"Once daily morning after food\",\n      \"durationDays\": 30\n    },\n    {\n      \"name\": \"Magnesium Glycinate\",\n      \"dosage\": \"250 mg\",\n      \"frequency\": \"Once daily at bedtime\",\n      \"durationDays\": 15\n    }\n  ],\n  \"lifestyleAdvice\": \"Reduce dietary sodium intake. Practice 20 mins deep breathing daily.\",\n  \"followUpDate\": \"2026-11-20\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/appointments/APT-2026-001/prescription",
+              "host": ["{{base_url}}"],
+              "path": ["api", "appointments", "APT-2026-001", "prescription"]
+            }
+          }
+        },
+        {
+          "name": "GET All Prescriptions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/prescriptions",
+              "host": ["{{base_url}}"],
+              "path": ["api", "prescriptions"]
+            }
+          }
+        },
+        {
+          "name": "GET Prescription by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/prescriptions/RX-501",
+              "host": ["{{base_url}}"],
+              "path": ["api", "prescriptions", "RX-501"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Hospital Analytics & Workload",
+      "item": [
+        {
+          "name": "GET Hospital Summary & Financial Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/analytics/summary",
+              "host": ["{{base_url}}"],
+              "path": ["api", "analytics", "summary"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Patient Master Index & EHR",
+      "item": [
+        {
+          "name": "GET All Registered Patients",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/patients",
+              "host": ["{{base_url}}"],
+              "path": ["api", "patients"]
+            }
+          }
+        },
+        {
+          "name": "GET Patient Longitudinal Dossier Timeline",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/patients/+91-9988776655/history",
+              "host": ["{{base_url}}"],
+              "path": ["api", "patients", "+91-9988776655", "history"]
+            }
+          }
+        },
+        {
+          "name": "POST Register New Patient",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Priya Desai\",\n  \"phone\": \"+91-9876543200\",\n  \"email\": \"priya.desai@example.com\",\n  \"age\": 32,\n  \"gender\": \"Female\",\n  \"bloodGroup\": \"O+\",\n  \"emergencyContact\": \"+91-9876543299\",\n  \"allergies\": [\"Penicillin\", \"Peanuts\"],\n  \"chronicConditions\": [\"Mild Bronchial Asthma\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/patients",
+              "host": ["{{base_url}}"],
+              "path": ["api", "patients"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Clinical Diagnostic Laboratory",
+      "item": [
+        {
+          "name": "GET Diagnostic Catalog",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/lab-tests/catalog",
+              "host": ["{{base_url}}"],
+              "path": ["api", "lab-tests", "catalog"]
+            }
+          }
+        },
+        {
+          "name": "GET Lab Test Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/lab-tests",
+              "host": ["{{base_url}}"],
+              "path": ["api", "lab-tests"]
+            }
+          }
+        },
+        {
+          "name": "POST Order Diagnostic Test",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"testCode\": \"LAB-CBC\",\n  \"patientName\": \"Arjun Mehta\",\n  \"patientPhone\": \"+91-9876500112\",\n  \"appointmentId\": \"APT-2026-001\",\n  \"urgency\": \"HIGH\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/lab-tests",
+              "host": ["{{base_url}}"],
+              "path": ["api", "lab-tests"]
+            }
+          }
+        },
+        {
+          "name": "PATCH Log Pathology Results",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"findings\": \"Hemoglobin: 14.5 g/dL, WBC: 6,800 /uL, Platelets: 230,000 /uL. Morphology normal.\",\n  \"interpretation\": \"NORMAL\",\n  \"technicianRemarks\": \"Verified by Senior Pathologist\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/lab-tests/TEST-2026-701/result",
+              "host": ["{{base_url}}"],
+              "path": ["api", "lab-tests", "TEST-2026-701", "result"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    }
+  ]
+}

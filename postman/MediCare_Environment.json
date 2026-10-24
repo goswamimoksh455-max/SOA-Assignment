@@ -1,0 +1,13 @@
+{
+  "id": "7b8e1f54-4a2e-43f1-b99b-449e79391024",
+  "name": "MediCare Local Environment",
+  "values": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment"
+}

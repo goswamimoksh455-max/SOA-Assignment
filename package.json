@@ -1,0 +1,20 @@
+{
+  "name": "medicare-web-service",
+  "version": "1.0.0",
+  "description": "MediCare Healthcare & E-Prescription RESTful Web Service for SOA IA2 Assessment",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test/api_test.js"
+  },
+  "keywords": ["soa", "web-services", "express", "healthcare", "rest-api"],
+  "author": "MediCare Development Team",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "morgan": "^1.12.1"
+  }
+}
